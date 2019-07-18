@@ -1,0 +1,48 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "cn.xag.xagclientmultimedia"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        A2 {
+            File strFile = new File("../sign/A2.keystore")
+            storeFile file(strFile)
+            keyAlias 'platform'
+            keyPassword 'android'
+            storePassword 'android'
+        }
+    }
+    buildTypes {
+        debug {
+//            productFlavors.A1.signingConfig signingConfigs.A1
+//            productFlavors.A2.signingConfig signingConfigs.A2
+            debuggable true
+            signingConfig signingConfigs.A2
+        }
+
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.A2
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(':xagclientmultimedialib')
+}
