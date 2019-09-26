@@ -5,8 +5,6 @@ import android.util.Log;
 
 import java.io.IOException;
 
-import cn.xag.xagclientmultimefialib.aoausb.FiFoUtlis;
-
 
 /**
  * Created by harlan on 2019/4/4.

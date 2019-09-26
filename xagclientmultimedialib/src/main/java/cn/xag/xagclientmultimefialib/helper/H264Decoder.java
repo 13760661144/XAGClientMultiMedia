@@ -1,4 +1,4 @@
-package cn.xag.xagclientmultimefialib.utils;
+package cn.xag.xagclientmultimefialib.helper;
 
 import android.annotation.TargetApi;
 import android.media.MediaCodec;
@@ -10,7 +10,7 @@ import android.view.SurfaceHolder;
 
 import java.nio.ByteBuffer;
 
-public class H264DecoderUtlis {
+public class H264Decoder {
     private MediaCodec mCodec;
     // private long mBaseTick = 0;
     // private long mNowTick = 0;
@@ -24,7 +24,7 @@ public class H264DecoderUtlis {
     // boolean f = true;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public H264DecoderUtlis(Surface surface, String mimeType, int w, int h, int timeInternal) {
+    public H264Decoder(Surface surface, String mimeType, int w, int h, int timeInternal) {
         try {
             // mCodec =
             // MediaCodec.createByCodecName("OMX.allwinner.video.decoder.avc");

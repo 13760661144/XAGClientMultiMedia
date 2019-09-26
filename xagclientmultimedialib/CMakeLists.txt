@@ -83,7 +83,7 @@ find_library( # Sets the name of the path variable.
 set(ARM_DIR ${CMAKE_SOURCE_DIR}/src/main/jniLibs)
 message(STATUS "execute CMakeLists")
 
-
+message(${ARM_DIR}/${ANDROID_ABI})
 #导入头文件
 include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/include)
 

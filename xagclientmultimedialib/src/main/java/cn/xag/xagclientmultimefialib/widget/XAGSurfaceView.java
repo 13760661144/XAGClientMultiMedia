@@ -1,12 +1,9 @@
 package cn.xag.xagclientmultimefialib.widget;
 
 import android.content.Context;
-import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.TextureView;
 
 import cn.xag.xagclientmultimefialib.TypeGlobal;
 import cn.xag.xagclientmultimefialib.ThreadManager;
@@ -14,12 +11,12 @@ import cn.xag.xagclientmultimefialib.jniutils.FFmpegDecodH264;
 import cn.xag.xagclientmultimefialib.model.GlobalDataManager;
 import cn.xag.xagclientmultimefialib.model.H264DataManager;
 import cn.xag.xagclientmultimefialib.utils.H264DecoderDataThread;
-import cn.xag.xagclientmultimefialib.utils.H264DecoderUtlis;
+import cn.xag.xagclientmultimefialib.helper.H264Decoder;
 
 /**
  * Created by 郑梦晨 on 2019/1/17.
  */
-public class XAGSurfaceView extends SurfaceView implements SurfaceHolder.Callback{
+public class XAGSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
     private Context mContext;
     private boolean isRunning;
@@ -41,6 +38,7 @@ public class XAGSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         this.isRunning = true;
         GlobalDataManager.getInstance().setRunning(isRunning);
         this.getHolder().addCallback(this);
+
         if (mH264DecoderDataThread == null) {
             mH264DecoderDataThread = new H264DecoderDataThread();
             mH264DecoderDataThread.start();
@@ -69,9 +67,12 @@ public class XAGSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
             }
 
             if (holder.getSurface() != null) {
-                H264DecoderUtlis h264DecoderUtlis = new H264DecoderUtlis(holder.getSurface(), "video/avc", 1920, 1080, 25);
+
+                H264Decoder h264DecoderUtlis = new H264Decoder(holder.getSurface(), "video/avc", 1920, 1080, 25);
                 H264DataManager.getInstance().setH264DecoderUtlis(h264DecoderUtlis);
+
             } else {
+
                 return;
             }
 

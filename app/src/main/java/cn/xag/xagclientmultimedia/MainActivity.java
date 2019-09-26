@@ -7,7 +7,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Surface;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,10 +17,6 @@ import java.io.FileOutputStream;
 
 import cn.xag.xagclientmultimefialib.ExternalRequest;
 import cn.xag.xagclientmultimefialib.TypeGlobal;
-import cn.xag.xagclientmultimefialib.aoausb.AOACreate;
-import cn.xag.xagclientmultimefialib.live555rtsp.Live555Create;
-import cn.xag.xagclientmultimefialib.widget.SwitchingView;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     FileOutputStream out = null;
@@ -56,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
-
         super.onResume();
     }
 
@@ -67,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
 
         // sfv_video.onPause();
-       MainActivity.this.finish();
+        MainActivity.this.finish();
         onDestroy();
         System.exit(0);
     }

@@ -2,14 +2,10 @@ package cn.xag.xagclientmultimefialib.live555rtsp;
 
 import android.util.Log;
 
-import java.nio.ByteBuffer;
-import java.util.concurrent.BlockingQueue;
-
 import cn.xag.xagclientmultimefialib.TypeGlobal;
 import cn.xag.xagclientmultimefialib.ThreadManager;
 import cn.xag.xagclientmultimefialib.jniutils.Live555Rtsp;
-import cn.xag.xagclientmultimefialib.model.H264DataManager;
-import cn.xag.xagclientmultimefialib.utils.FindAFrameUtlis;
+import cn.xag.xagclientmultimefialib.helper.FindAFrameHelper;
 
 /**
  * Created by harlan on 2019/4/11.
@@ -39,7 +35,7 @@ public class Live555Create {
             @Override
             public void videoCallBack(byte[] data, int len) {
                if (TypeGlobal.getInstance().getCommTheWay()==TypeGlobal.CommTheWay.IS_RTSP){
-                    FindAFrameUtlis.getInstance().makeSpsPps(data);
+                    FindAFrameHelper.getInstance().makeSpsPps(data);
                 }
             }
         });

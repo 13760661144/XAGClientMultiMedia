@@ -5,8 +5,8 @@ import android.view.Surface;
 import java.nio.ByteBuffer;
 import java.util.concurrent.BlockingQueue;
 
-import cn.xag.xagclientmultimefialib.aoausb.FiFoUtlis;
 import cn.xag.xagclientmultimefialib.model.H264DataManager;
+import cn.xag.xagclientmultimefialib.utils.FiFoUtlis;
 
 /**
  * Created by harlan on 2019/2/28.
@@ -15,14 +15,11 @@ public class  FFmpegDecodH264 {
     static {
         System.loadLibrary("native-lib");
         System.loadLibrary("avcodec");
-    //    System.loadLibrary("avdevice-57");
         System.loadLibrary("avformat");
         System.loadLibrary("avfilter");
         System.loadLibrary("avutil");
-    //    System.loadLibrary("postproc-54");
         System.loadLibrary("swresample");
         System.loadLibrary("swscale");
-     //   System.loadLibrary("rtsp-lib");
     }
 
     public int syncStream(byte[] data, int len) {

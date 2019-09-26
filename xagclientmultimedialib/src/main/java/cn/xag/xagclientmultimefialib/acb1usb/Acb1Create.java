@@ -4,26 +4,20 @@ import android.content.Context;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbEndpoint;
 import android.hardware.usb.UsbManager;
-import android.os.Environment;
 import android.util.Log;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 import cn.xag.xagclientmultimefialib.ThreadManager;
-import cn.xag.xagclientmultimefialib.TypeGlobal;
-import cn.xag.xagclientmultimefialib.aoausb.FiFoUtlis;
-import cn.xag.xagclientmultimefialib.jniutils.Live555Rtsp;
 import cn.xag.xagclientmultimefialib.model.H264DataManager;
-import cn.xag.xagclientmultimefialib.utils.FindAFrameUtlis;
+import cn.xag.xagclientmultimefialib.utils.FiFoUtlis;
+import cn.xag.xagclientmultimefialib.helper.FindAFrameHelper;
 
 /**
  * Created by harlan on 2019/4/16.
@@ -112,11 +106,11 @@ public class Acb1Create {
         Runnable artosynPlayerError = new Runnable() {
             @Override
             public void run() {
-                final FindAFrameUtlis decodeUtlis = new FindAFrameUtlis();
+                final FindAFrameHelper decodeUtlis = new FindAFrameHelper();
                 while (true) {
                     if (FiFoUtlis.getInstance().getActualSize() < 0)
                         return;
-                    decodeUtlis.searchFrame(new FindAFrameUtlis.FrameBufferListener() {
+                    decodeUtlis.searchFrame(new FindAFrameHelper.FrameBufferListener() {
                         @Override
                         public void isPushFrameBuffer(ByteBuffer byteBuffer) {
                             if (byteBuffer == null)

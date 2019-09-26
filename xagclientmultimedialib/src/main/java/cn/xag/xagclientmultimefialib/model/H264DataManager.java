@@ -3,7 +3,7 @@ package cn.xag.xagclientmultimefialib.model;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import cn.xag.xagclientmultimefialib.utils.H264DecoderUtlis;
+import cn.xag.xagclientmultimefialib.helper.H264Decoder;
 
 /**
  * Created by harlan on 2019/4/15.
@@ -29,13 +29,13 @@ public class H264DataManager {
 
     private BlockingQueue<byte[]> h264dataQueue = new ArrayBlockingQueue<byte[]>(1000);
 
-    public H264DecoderUtlis getH264DecoderUtlis() {
+    public H264Decoder getH264DecoderUtlis() {
         return h264DecoderUtlis;
     }
 
-    public void setH264DecoderUtlis(H264DecoderUtlis h264DecoderUtlis) {
+    public void setH264DecoderUtlis(H264Decoder h264DecoderUtlis) {
         this.h264DecoderUtlis = h264DecoderUtlis;
     }
 
-    private H264DecoderUtlis h264DecoderUtlis;
+    private H264Decoder h264DecoderUtlis;
 }

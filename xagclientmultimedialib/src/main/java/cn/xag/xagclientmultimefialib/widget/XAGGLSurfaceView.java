@@ -3,7 +3,6 @@ package cn.xag.xagclientmultimefialib.widget;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
-import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Surface;
@@ -18,19 +17,18 @@ import cn.xag.xagclientmultimefialib.jniutils.FFmpegDecodH264;
 import cn.xag.xagclientmultimefialib.model.GlobalDataManager;
 import cn.xag.xagclientmultimefialib.model.H264DataManager;
 import cn.xag.xagclientmultimefialib.utils.H264DecoderDataThread;
-import cn.xag.xagclientmultimefialib.utils.H264DecoderUtlis;
+import cn.xag.xagclientmultimefialib.helper.H264Decoder;
 
 /**
  * Created by harlen on 2019/1/11.
  */
-public class XAGGLSurfaceView extends GLSurfaceView implements GLSurfaceView.Renderer,SurfaceTexture.OnFrameAvailableListener {
+public class XAGGLSurfaceView extends GLSurfaceView implements GLSurfaceView.Renderer, SurfaceTexture.OnFrameAvailableListener {
     private CameraDrawer mCameraDrawer;
     private int mScreenWidth;
     private int mScreenHeight;
-    private  Context mContext;
+    private Context mContext;
     private boolean isRunning;
     private H264DecoderDataThread mH264DecoderDataThread;
-//    public MainActivty mMainActivity = null;
 
     public XAGGLSurfaceView(Context context) {
         super(context);
@@ -43,7 +41,7 @@ public class XAGGLSurfaceView extends GLSurfaceView implements GLSurfaceView.Ren
         setRenderMode(RENDERMODE_WHEN_DIRTY);//主动调用渲染
         setPreserveEGLContextOnPause(true);//保存Context当pause时
         /**初始化Camera的绘制类*/
-        mCameraDrawer = new CameraDrawer(getResources(),context);
+        mCameraDrawer = new CameraDrawer(getResources(), context);
         init();
     }
 
@@ -61,9 +59,9 @@ public class XAGGLSurfaceView extends GLSurfaceView implements GLSurfaceView.Ren
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        Surface surface=null;
-        mCameraDrawer.onSurfaceCreated(gl,config);
-        mCameraDrawer.setPreviewSize(mScreenWidth,mScreenHeight);
+        Surface surface = null;
+        mCameraDrawer.onSurfaceCreated(gl, config);
+        mCameraDrawer.setPreviewSize(mScreenWidth, mScreenHeight);
         SurfaceTexture texture = mCameraDrawer.getTexture();
         texture.setOnFrameAvailableListener(this);
         surface = new Surface(texture);
@@ -82,7 +80,7 @@ public class XAGGLSurfaceView extends GLSurfaceView implements GLSurfaceView.Ren
             }
 
             if (surface != null) {
-                H264DecoderUtlis h264DecoderUtlis = new H264DecoderUtlis(surface, "video/avc", 1920, 1080, 25);
+                H264Decoder h264DecoderUtlis = new H264Decoder(surface, "video/avc", 1920, 1080, 25);
                 H264DataManager.getInstance().setH264DecoderUtlis(h264DecoderUtlis);
             } else {
                 return;
@@ -91,6 +89,7 @@ public class XAGGLSurfaceView extends GLSurfaceView implements GLSurfaceView.Ren
         } else if (TypeGlobal.getInstance().getFrameType() == TypeGlobal.FrameType.IS_SOFT_SOLUTION) {
 
             final Surface finalSurface = surface;
+
             Runnable playRunnable = new Runnable() {
                 @Override
                 public void run() {
@@ -108,25 +107,25 @@ public class XAGGLSurfaceView extends GLSurfaceView implements GLSurfaceView.Ren
         new Thread(new Runnable() {
             @Override
             public void run() {
-      //          mMainActivity.startVideoStream1(mMainActivity, finalSurface);
+                //          mMainActivity.startVideoStream1(mMainActivity, finalSurface);
             }
         }).start();
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        mCameraDrawer.onSurfaceChanged(gl,width,height);
+        mCameraDrawer.onSurfaceChanged(gl, width, height);
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        Log.d("onDrawFrame","onDrawFrame");
+        Log.d("onDrawFrame", "onDrawFrame");
         mCameraDrawer.onDrawFrame(gl);
     }
 
     @Override
     public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-            this.requestRender();
+        this.requestRender();
     }
 
 }

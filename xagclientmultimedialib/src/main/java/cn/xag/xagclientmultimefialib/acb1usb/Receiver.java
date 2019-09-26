@@ -9,7 +9,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Random;
-import cn.xag.xagclientmultimefialib.aoausb.FiFoUtlis;
+
+import cn.xag.xagclientmultimefialib.utils.FiFoUtlis;
+
 public class Receiver {
     final String TAG = "Receiver";
 

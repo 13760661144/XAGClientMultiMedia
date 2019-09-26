@@ -1,17 +1,17 @@
-package cn.xag.xagclientmultimefialib.utils;
+package cn.xag.xagclientmultimefialib.helper;
 
 import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.BlockingQueue;
 
-import cn.xag.xagclientmultimefialib.aoausb.FiFoUtlis;
 import cn.xag.xagclientmultimefialib.model.H264DataManager;
+import cn.xag.xagclientmultimefialib.utils.FiFoUtlis;
 
 /**
  * Created by harlen on 2018/11/28.
  */
-public class FindAFrameUtlis {
+public class FindAFrameHelper {
 
     public int flagCurrent = 0;
     private int copyFrameSize = 0;//拷贝每一帧数据的大小
@@ -19,15 +19,15 @@ public class FindAFrameUtlis {
 
     private Boolean isIframe = false; //判断是否为i帧
     private final FiFoUtlis mStreamFiFo;
-    private static FindAFrameUtlis instance = null;
+    private static FindAFrameHelper instance = null;
 
-    public static synchronized FindAFrameUtlis getInstance() {
+    public static synchronized FindAFrameHelper getInstance() {
         if (instance == null)
-            instance = new FindAFrameUtlis();
+            instance = new FindAFrameHelper();
         return instance;
     }
 
-    public FindAFrameUtlis() {
+    public FindAFrameHelper() {
         mStreamFiFo = FiFoUtlis.getInstance();
     }
 
@@ -41,20 +41,21 @@ public class FindAFrameUtlis {
             if (countFlag == 1) {
                 copyFrameSize++;
             }
+
+            //判断是否是视频数据
+
             //h264二进制数规范为前00 00 00 01或 00 00 01
             boolean specificationHead = mStreamFiFo.getBuffer()[(mStreamFiFo.getmFront() + i) % mStreamFiFo.FIFO_SIZE] == (byte) 0x00;
             boolean specificationTwo = mStreamFiFo.getBuffer()[(mStreamFiFo.getmFront() + i + 1) % mStreamFiFo.FIFO_SIZE] == (byte) 0x00;
             boolean specificationThree = mStreamFiFo.getBuffer()[(mStreamFiFo.getmFront() + i + 2) % mStreamFiFo.FIFO_SIZE] == (byte) 0x00 || mStreamFiFo.getBuffer()[(mStreamFiFo.getmFront() + i + 2) % mStreamFiFo.FIFO_SIZE] == 0x01;
             boolean specificationFour = mStreamFiFo.getBuffer()[(mStreamFiFo.getmFront() + i + 3) % mStreamFiFo.FIFO_SIZE] == (byte) 0x01;
-
             //判断第一和第二位是否是00
             if (!(specificationHead && specificationTwo)) {
                 continue;
             }
 
             //判断第三和第四位是否是00 ，01
-            if (!(specificationThree && specificationFour
-            )) {
+            if (!(specificationThree && specificationFour)) {
                 continue;
             }
 
@@ -104,7 +105,6 @@ public class FindAFrameUtlis {
     private ByteBuffer startCopying() {
         byte[] dataa = null;
         ByteBuffer byteBuffer = null;
-
         //不是i帧不需要过滤，直接拷贝
         if (isIframe == false) {
             dataa = new byte[copyFrameSize + flagCurrent];
@@ -179,7 +179,7 @@ public class FindAFrameUtlis {
             BlockingQueue<byte[]> h264dataQueue = H264DataManager.getInstance().getH264dataQueue();
             h264dataQueue.offer(outData);
         } catch (Exception e) {
-            // e.printStackTrace();
+             e.printStackTrace();
         }
     }
 

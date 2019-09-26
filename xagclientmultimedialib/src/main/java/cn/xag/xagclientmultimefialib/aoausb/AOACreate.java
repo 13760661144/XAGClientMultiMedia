@@ -19,9 +19,9 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.BlockingQueue;
 
 import cn.xag.xagclientmultimefialib.ThreadManager;
-import cn.xag.xagclientmultimefialib.TypeGlobal;
 import cn.xag.xagclientmultimefialib.model.H264DataManager;
-import cn.xag.xagclientmultimefialib.utils.FindAFrameUtlis;
+import cn.xag.xagclientmultimefialib.utils.FiFoUtlis;
+import cn.xag.xagclientmultimefialib.helper.FindAFrameHelper;
 
 /**
  * Created by harlen on 2019/1/11.
@@ -50,11 +50,11 @@ public class AOACreate  {
         Runnable artosynPlayerError = new Runnable() {
             @Override
             public void run() {
-                final FindAFrameUtlis decodeUtlis = new FindAFrameUtlis();
+                final FindAFrameHelper decodeUtlis = new FindAFrameHelper();
                 while (true) {
                     if (FiFoUtlis.getInstance().getActualSize() < 0)
                         return;
-                    decodeUtlis.searchFrame(new FindAFrameUtlis.FrameBufferListener() {
+                    decodeUtlis.searchFrame(new FindAFrameHelper.FrameBufferListener() {
                         @Override
                         public void isPushFrameBuffer(ByteBuffer byteBuffer) {
                             if (byteBuffer == null)
@@ -108,6 +108,12 @@ public class AOACreate  {
     //打开aoa
     public void openAoa(){
         UsbAccessory accessory = getAccessory();
+        Log.d("UsbAccessory","Version"+accessory.getVersion());
+        Log.d("UsbAccessory","Model"+accessory.getModel());
+        Log.d("UsbAccessory","Uri"+accessory.getUri());
+        Log.d("UsbAccessory","Serial"+accessory.getSerial());
+        Log.d("UsbAccessory","Description"+accessory.getDescription());
+        Log.d("UsbAccessory","Manufacturer"+accessory.getManufacturer());
         mConnection = mUsbManager.openAccessory(accessory);
         mFileDescriptor = mConnection.getFileDescriptor();
         mInputStream = new FileInputStream(mFileDescriptor);

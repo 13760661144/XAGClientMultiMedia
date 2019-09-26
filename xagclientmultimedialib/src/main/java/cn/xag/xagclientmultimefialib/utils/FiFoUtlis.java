@@ -1,4 +1,4 @@
-package cn.xag.xagclientmultimefialib.aoausb;
+package cn.xag.xagclientmultimefialib.utils;
 
 /**
  * Created by harlen on 2018/11/28.
